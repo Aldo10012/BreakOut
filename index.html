@@ -21,7 +21,7 @@
     var x = canvas.width/2;
     var y = canvas.height-30;
     var ballRadius = 10;
-    var ballSpeed = 3
+    var ballSpeed = 5
     var dx = ballSpeed;
     var dy = -ballSpeed;
 
@@ -49,6 +49,9 @@
 
     // for scores
     var score = 0;
+
+    // for lives
+    var lives = 3;
 
     // for button on keyboard
     var rightPressed = false;
@@ -99,7 +102,6 @@
                         if(score == brickRowCount*brickColumnCount) {
                             alert("YOU WIN, CONGRATULATIONS!");
                             document.location.reload();
-                            clearInterval(interval); // Needed for Chrome to end game
                         }
                     }
                 }
@@ -112,6 +114,12 @@
         ctx.font = "16px Arial";
         ctx.fillStyle = "#0095DD";
         ctx.fillText("Score: "+score, 8, 20);
+    }
+
+    function drawLives() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Lives: "+lives, canvas.width-65, 20);
     }
 
     function drawBall() {
@@ -154,6 +162,7 @@
         drawBall();
         drawPaddle();
         drawScore();
+        drawLives();
         collisionDetection();
 
         // ball hit left or right side
@@ -172,9 +181,18 @@
             }
             // ball hit bottom
             else { 
-                alert("GAME OVER");
-                document.location.reload();
-                clearInterval(interval);
+                lives--;
+                if(!lives) {
+                    alert("GAME OVER");
+                    document.location.reload();
+                }
+                else {
+                    x = canvas.width/2;
+                    y = canvas.height-30;
+                    dx = 2;
+                    dy = -2;
+                    paddleX = (canvas.width-paddleWidth)/2;
+                }
             }
         }
 
@@ -193,9 +211,11 @@
 
         x += dx;
         y += dy;
+
+        requestAnimationFrame(draw);
     }
 
-    var interval = setInterval(draw, 10);
+    draw();
     
     
 
