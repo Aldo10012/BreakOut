@@ -47,6 +47,9 @@
         }
     }
 
+    // for scores
+    var score = 0;
+
     // for button on keyboard
     var rightPressed = false;
     var leftPressed = false;
@@ -82,6 +85,13 @@
                     if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
                         dy = -dy;
                         b.status = 0;
+                        score++;
+
+                        if(score == brickRowCount*brickColumnCount) {
+                            alert("YOU WIN, CONGRATULATIONS!");
+                            document.location.reload();
+                            clearInterval(interval); // Needed for Chrome to end game
+                        }
                     }
                 }
             }
@@ -89,6 +99,12 @@
     }
 
     // UI
+    function drawScore() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Score: "+score, 8, 20);
+    }
+
     function drawBall() {
         ctx.beginPath();
         ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -128,6 +144,7 @@
         drawBricks();
         drawBall();
         drawPaddle();
+        drawScore();
         collisionDetection();
 
         // ball hit left or right side
