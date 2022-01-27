@@ -1,7 +1,12 @@
+// Index.js
+import Ball from './Ball.js';
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
 // for ball
+// let ballSprite = new Ball(canvas);
+
 let x = canvas.width / 2;
 let y = canvas.height - 30;
 const ballRadius = 10;
