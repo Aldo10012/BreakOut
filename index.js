@@ -1,5 +1,6 @@
 // Index.js
 import Ball from './Ball.js';
+import Paddle from './Paddle.js';
 
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
@@ -15,6 +16,8 @@ let ball = new Ball(canvas.width / 2, canvas.height - 30);
 // let dy = -ballSpeed;
 
 // for paddle
+let paddle = new Paddle(canvas);
+
 const paddleHeight = 10;
 const paddleWidth = 75;
 let paddleX = (canvas.width - paddleWidth) / 2;
@@ -159,7 +162,7 @@ function draw() {
   drawBricks();
   // drawBall();
   ball.drawBall(ctx);
-  
+
   drawPaddle();
   drawScore();
   drawLives();
