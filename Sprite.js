@@ -21,11 +21,3 @@ class Sprite {
 export default Sprite
 
 let sprite = new Sprite()
-
-
-// TODO: 
-// Make subclasses for: 
-// - Brick
-// - Paddle
-// - Score
-// - Lives

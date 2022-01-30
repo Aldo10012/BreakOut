@@ -2,8 +2,22 @@
 import Ball from './Ball.js';
 import Paddle from './Paddle.js';
 
+// TODO: 
+// Make subclasses for: 
+// - Brick
+// - Score
+// - Lives
+
+// **********************************************************************
+// DOM Reference
+// **********************************************************************
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
+
+// **********************************************************************
+// Properties
+// **********************************************************************
 
 // for ball
 let ball = new Ball(canvas.width / 2, canvas.height - 30);
@@ -18,9 +32,9 @@ let ball = new Ball(canvas.width / 2, canvas.height - 30);
 // for paddle
 let paddle = new Paddle(canvas);
 
-const paddleHeight = 10;
-const paddleWidth = 75;
-let paddleX = (canvas.width - paddleWidth) / 2;
+// const paddleHeight = 10;
+// const paddleWidth = 75;
+// let paddleX = (canvas.width - paddleWidth) / 2;
 
 // for bricks
 const brickRowCount = 3;
@@ -72,13 +86,17 @@ function keyUpHandler(e) {
 function mouseMoveHandler(e) {
   const relativeX = e.clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
-    paddleX = relativeX - paddleWidth / 2;
+    paddle.paddleX = relativeX - paddle.paddleWidth / 2;
   }
 }
 
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
+
+// **********************************************************************
+// Game Mechanics
+// **********************************************************************
 
 // collision detection
 function collisionDetection() {
@@ -125,13 +143,13 @@ function drawLives() {
 //   ctx.closePath();
 // }
 
-function drawPaddle() {
-  ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = '#0095DD';
-  ctx.fill();
-  ctx.closePath();
-}
+// function drawPaddle() {
+//   ctx.beginPath();
+//   ctx.rect(paddle.paddleX, canvas.height - paddle.paddleHeight, paddle.paddleWidth, paddle.paddleHeight);
+//   ctx.fillStyle = '#0095DD';
+//   ctx.fill();
+//   ctx.closePath();
+// }
 
 function drawBricks() {
   for (let c = 0; c < brickColumnCount; c += 1) {
@@ -163,7 +181,9 @@ function draw() {
   // drawBall();
   ball.drawBall(ctx);
 
-  drawPaddle();
+  // drawPaddle();
+  paddle.drawPaddle(ctx, canvas);
+
   drawScore();
   drawLives();
   collisionDetection();
@@ -177,7 +197,7 @@ function draw() {
   if (ball.y + ball.dy < ball.ballRadius) {
     ball.dy = -ball.dy;
   } else if (ball.y + ball.dy > canvas.height - ball.ballRadius) {
-    if (ball.x > paddleX && ball.x < paddleX + paddleWidth) { // ball hit paddle
+    if (ball.x > paddle.paddleX && ball.x < paddle.paddleX + paddle.paddleWidth) { // ball hit paddle
       ball.dy = -ball.dy;
     } else { // ball hit bottom
       lives -= 1;
@@ -189,20 +209,20 @@ function draw() {
         ball.y = canvas.height - 30;
         ball.dx = ball.ballSpeed;
         ball.dy = -ball.ballSpeed;
-        paddleX = (canvas.width - paddleWidth) / 2;
+        paddle.paddleX = (canvas.width - paddle.paddleWidth) / 2;
       }
     }
   }
 
   if (rightPressed) {
-    paddleX += 7;
-    if (paddleX + paddleWidth > canvas.width) {
-      paddleX = canvas.width - paddleWidth;
+    paddle.paddleX += 7;
+    if (paddle.paddleX + paddle.paddleWidth > canvas.width) {
+      paddle.paddleX = canvas.width - paddle.paddleWidth;
     }
   } else if (leftPressed) {
-    paddleX -= 7;
-    if (paddleX < 0) {
-      paddleX = 0;
+    paddle.paddleX -= 7;
+    if (paddle.paddleX < 0) {
+      paddle.paddleX = 0;
     }
   }
 
