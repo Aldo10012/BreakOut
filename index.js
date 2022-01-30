@@ -1,12 +1,7 @@
 // Index.js
 import Ball from './Ball.js';
 import Paddle from './Paddle.js';
-
-// TODO: 
-// Make subclasses for: 
-// - Brick
-// - Score
-// - Lives
+import Bricks from './Bricks.js';
 
 // **********************************************************************
 // DOM Reference
@@ -22,36 +17,12 @@ const ctx = canvas.getContext('2d');
 // for ball
 let ball = new Ball(canvas.width / 2, canvas.height - 30);
 
-// let x = canvas.width / 2;
-// let y = canvas.height - 30;
-// const ballRadius = 10;
-// const ballSpeed = 5;
-// let dx = ballSpeed;
-// let dy = -ballSpeed;
-
 // for paddle
 let paddle = new Paddle(canvas);
 
-// const paddleHeight = 10;
-// const paddleWidth = 75;
-// let paddleX = (canvas.width - paddleWidth) / 2;
-
 // for bricks
-const brickRowCount = 3;
-const brickColumnCount = 5;
-const brickWidth = 75;
-const brickHeight = 20;
-const brickPadding = 10;
-const brickOffsetTop = 30;
-const brickOffsetLeft = 30;
-
-const bricks = [];
-for (let c = 0; c < brickColumnCount; c += 1) {
-  bricks[c] = [];
-  for (let r = 0; r < brickRowCount; r += 1) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
-  }
-}
+let bricks = new Bricks();
+bricks.initializedBricks();
 
 // for scores
 let score = 0;
@@ -100,16 +71,16 @@ document.addEventListener('mousemove', mouseMoveHandler, false);
 
 // collision detection
 function collisionDetection() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      const b = bricks[c][r];
+  for (let c = 0; c < bricks.brickColumnCount; c += 1) {
+    for (let r = 0; r < bricks.brickRowCount; r += 1) {
+      const b = bricks.bricks[c][r];
       if (b.status === 1) {
-        if (ball.x > b.x && ball.x < b.x + brickWidth && ball.y > b.y && ball.y < b.y + brickHeight) {
+        if (ball.x > b.x && ball.x < b.x + b.brickWidth && ball.y > b.y && ball.y < b.y + b.brickHeight) {
           ball.dy = -ball.dy;
           b.status = 0;
           score += 1;
 
-          if (score === brickRowCount * brickColumnCount) {
+          if (score === bricks.brickRowCount * bricks.brickColumnCount) {
             alert('YOU WIN, CONGRATULATIONS!');
             document.location.reload();
           }
@@ -135,53 +106,10 @@ function drawLives() {
   ctx.fillText('Lives: ' + lives, canvas.width - 65, 20);
 }
 
-// function drawBall() {
-//   ctx.beginPath();
-//   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-//   ctx.fillStyle = '#0095DD';
-//   ctx.fill();
-//   ctx.closePath();
-// }
-
-// function drawPaddle() {
-//   ctx.beginPath();
-//   ctx.rect(paddle.paddleX, canvas.height - paddle.paddleHeight, paddle.paddleWidth, paddle.paddleHeight);
-//   ctx.fillStyle = '#0095DD';
-//   ctx.fill();
-//   ctx.closePath();
-// }
-
-function drawBricks() {
-  for (let c = 0; c < brickColumnCount; c += 1) {
-    for (let r = 0; r < brickRowCount; r += 1) {
-      if (bricks[c][r].status === 1) {
-        const brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
-        const brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
-        ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-
-        // adding checkers pattern
-        if (((r % 2 === 0) && (c % 2 === 0)) || ((r % 2 === 1) && (c % 2 === 1))) {
-          ctx.fillStyle = '#000000';
-        } else {
-          ctx.fillStyle = '#0095DD';
-        }
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
-  }
-}
-
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
-  // drawBall();
+  bricks.drawBricks(ctx);
   ball.drawBall(ctx);
-
-  // drawPaddle();
   paddle.drawPaddle(ctx, canvas);
 
   drawScore();
