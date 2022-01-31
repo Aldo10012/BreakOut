@@ -11,7 +11,7 @@ class Brick {
 
   drawBrick(ctx, r, c) {
     ctx.beginPath();
-    ctx.rect(this.brickX, this.brickY, this.brickWidth, this.brickHeight);
+    ctx.rect(this.x, this.y, this.brickWidth, this.brickHeight);
 
     // adding checkers pattern
     if (((r % 2 === 0) && (c % 2 === 0)) || ((r % 2 === 1) && (c % 2 === 1))) {
