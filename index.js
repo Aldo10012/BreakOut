@@ -2,6 +2,7 @@
 import Ball from './Ball.js';
 import Paddle from './Paddle.js';
 import Bricks from './Bricks.js';
+import GameLabel from './GameLabel.js';
 
 // **********************************************************************
 // DOM Reference
@@ -14,21 +15,12 @@ const ctx = canvas.getContext('2d');
 // Properties
 // **********************************************************************
 
-// for ball
 let ball = new Ball(canvas.width / 2, canvas.height - 30);
-
-// for paddle
 let paddle = new Paddle(canvas);
-
-// for bricks
 let bricks = new Bricks();
 bricks.initializedBricks();
-
-// for scores
-let score = 0;
-
-// for lives
-let lives = 3;
+let scoreLabel = new GameLabel('Score', 0, 8, 20);
+let livesLabel = new GameLabel('Lives', 3, canvas.width - 65, 20)
 
 // for button on keyboard
 let rightPressed = false;
@@ -78,9 +70,9 @@ function collisionDetection() {
         if (ball.x > b.x && ball.x < b.x + b.brickWidth && ball.y > b.y && ball.y < b.y + b.brickHeight) {
           ball.dy = -ball.dy;
           b.status = 0;
-          score += 1;
+          scoreLabel.value += 1;
 
-          if (score === bricks.brickRowCount * bricks.brickColumnCount) {
+          if (scoreLabel.value === bricks.brickRowCount * bricks.brickColumnCount) {
             alert('YOU WIN, CONGRATULATIONS!');
             document.location.reload();
           }
@@ -94,26 +86,15 @@ function collisionDetection() {
 // UI Setup
 // **********************************************************************
 
-function drawScore() {
-  ctx.font = '16px Arial';
-  ctx.fillStyle = '#0095DD';
-  ctx.fillText('Score: ' + score, 8, 20);
-}
-
-function drawLives() {
-  ctx.font = '16px Arial';
-  ctx.fillStyle = '#0095DD';
-  ctx.fillText('Lives: ' + lives, canvas.width - 65, 20);
-}
-
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   bricks.drawBricks(ctx);
   ball.drawBall(ctx);
   paddle.drawPaddle(ctx, canvas);
+  scoreLabel.draw(ctx);
+  livesLabel.draw(ctx);
 
-  drawScore();
-  drawLives();
+
   collisionDetection();
 
   // ball hit left or right side
@@ -128,8 +109,8 @@ function draw() {
     if (ball.x > paddle.paddleX && ball.x < paddle.paddleX + paddle.paddleWidth) { // ball hit paddle
       ball.dy = -ball.dy;
     } else { // ball hit bottom
-      lives -= 1;
-      if (!lives) {
+      livesLabel.value -= 1;
+      if (!livesLabel.value) {
         alert('GAME OVER');
         document.location.reload();
       } else {
