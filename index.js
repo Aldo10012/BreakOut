@@ -15,12 +15,12 @@ const ctx = canvas.getContext('2d');
 // Properties
 // **********************************************************************
 
-let ball = new Ball(canvas.width / 2, canvas.height - 30);
-let paddle = new Paddle(canvas);
-let bricks = new Bricks();
+const ball = new Ball(canvas.width / 2, canvas.height - 30);
+const paddle = new Paddle(canvas);
+const bricks = new Bricks();
 bricks.initializedBricks();
-let scoreLabel = new GameLabel('Score', 0, 8, 20);
-let livesLabel = new GameLabel('Lives', 3, canvas.width - 65, 20)
+const scoreLabel = new GameLabel('Score', 0, 8, 20);
+const livesLabel = new GameLabel('Lives', 3, canvas.width - 65, 20);
 
 // for button on keyboard
 let rightPressed = false;
@@ -61,6 +61,15 @@ document.addEventListener('mousemove', mouseMoveHandler, false);
 // Game Mechanics
 // **********************************************************************
 
+// view resets
+function resetBallAndPaddle() {
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height - 30;
+  ball.dx = ball.ballSpeed;
+  ball.dy = -ball.ballSpeed;
+  paddle.paddleX = (canvas.width - paddle.paddleWidth) / 2;
+}
+
 // collision detection
 function collisionDetection() {
   for (let c = 0; c < bricks.brickColumnCount; c += 1) {
@@ -82,6 +91,45 @@ function collisionDetection() {
   }
 }
 
+function checkIfBallHitSide() {
+  // ball hit left or right side
+  if (ball.x + ball.dx > canvas.width - ball.ballRadius || ball.x + ball.dx < ball.ballRadius) {
+    ball.dx = -ball.dx;
+  }
+
+  // ball hit top
+  if (ball.y + ball.dy < ball.ballRadius) {
+    ball.dy = -ball.dy;
+  } else if (ball.y + ball.dy > canvas.height - ball.ballRadius) {
+    // ball hit paddle
+    if (ball.x > paddle.paddleX && ball.x < paddle.paddleX + paddle.paddleWidth) {
+      ball.dy = -ball.dy;
+    } else { // ball hit bottom
+      livesLabel.value -= 1;
+      if (!livesLabel.value) {
+        alert('GAME OVER');
+        document.location.reload();
+      } else {
+        resetBallAndPaddle();
+      }
+    }
+  }
+}
+
+function checkIfKeyWasPressed() {
+  if (rightPressed) {
+    paddle.paddleX += 7;
+    if (paddle.paddleX + paddle.paddleWidth > canvas.width) {
+      paddle.paddleX = canvas.width - paddle.paddleWidth;
+    }
+  } else if (leftPressed) {
+    paddle.paddleX -= 7;
+    if (paddle.paddleX < 0) {
+      paddle.paddleX = 0;
+    }
+  }
+}
+
 // **********************************************************************
 // UI Setup
 // **********************************************************************
@@ -94,46 +142,9 @@ function draw() {
   scoreLabel.draw(ctx);
   livesLabel.draw(ctx);
 
-
   collisionDetection();
-
-  // ball hit left or right side
-  if (ball.x + ball.dx > canvas.width - ball.ballRadius || ball.x + ball.dx < ball.ballRadius) {
-    ball.dx = -ball.dx;
-  }
-
-  // ball hit top
-  if (ball.y + ball.dy < ball.ballRadius) {
-    ball.dy = -ball.dy;
-  } else if (ball.y + ball.dy > canvas.height - ball.ballRadius) {
-    if (ball.x > paddle.paddleX && ball.x < paddle.paddleX + paddle.paddleWidth) { // ball hit paddle
-      ball.dy = -ball.dy;
-    } else { // ball hit bottom
-      livesLabel.value -= 1;
-      if (!livesLabel.value) {
-        alert('GAME OVER');
-        document.location.reload();
-      } else {
-        ball.x = canvas.width / 2;
-        ball.y = canvas.height - 30;
-        ball.dx = ball.ballSpeed;
-        ball.dy = -ball.ballSpeed;
-        paddle.paddleX = (canvas.width - paddle.paddleWidth) / 2;
-      }
-    }
-  }
-
-  if (rightPressed) {
-    paddle.paddleX += 7;
-    if (paddle.paddleX + paddle.paddleWidth > canvas.width) {
-      paddle.paddleX = canvas.width - paddle.paddleWidth;
-    }
-  } else if (leftPressed) {
-    paddle.paddleX -= 7;
-    if (paddle.paddleX < 0) {
-      paddle.paddleX = 0;
-    }
-  }
+  checkIfBallHitSide();
+  checkIfKeyWasPressed()
 
   ball.x += ball.dx;
   ball.y += ball.dy;
