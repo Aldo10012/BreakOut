@@ -3,7 +3,7 @@ import Ball from './Ball.js';
 import Paddle from './Paddle.js';
 import Bricks from './Bricks.js';
 import GameLabel from './GameLabel.js';
-import EventListener from './EventListener.js';
+// import EventListener from './EventListener.js';
 
 // **********************************************************************
 // DOM Reference
