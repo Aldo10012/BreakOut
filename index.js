@@ -3,6 +3,7 @@ import Ball from './Ball.js';
 import Paddle from './Paddle.js';
 import Bricks from './Bricks.js';
 import GameLabel from './GameLabel.js';
+import EventListener from './EventListener.js';
 
 // **********************************************************************
 // DOM Reference
@@ -29,6 +30,11 @@ let leftPressed = false;
 // **********************************************************************
 // Event Listeners
 // **********************************************************************
+
+// let eventListener = new EventListener(canvas, paddle)
+// eventListener.keyDown()
+// eventListener.keyUp()
+// eventListener.mouseMove(canvas, paddle)
 
 function keyDownHandler(e) {
   if (e.key === 'Right' || e.key === 'ArrowRight') {
