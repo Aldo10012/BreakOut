@@ -4,6 +4,7 @@ import Paddle from './Paddle.js';
 import Bricks from './Bricks.js';
 import GameLabel from './GameLabel.js';
 // import EventListener from './EventListener.js';
+import Game from './Game.js';
 
 // **********************************************************************
 // DOM Reference
@@ -11,6 +12,8 @@ import GameLabel from './GameLabel.js';
 
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
+
+const game = new Game(canvas, ctx);
 
 // **********************************************************************
 // Properties
@@ -59,9 +62,9 @@ function mouseMoveHandler(e) {
   }
 }
 
-document.addEventListener('keydown', keyDownHandler, false);
-document.addEventListener('keyup', keyUpHandler, false);
-document.addEventListener('mousemove', mouseMoveHandler, false);
+// document.addEventListener('keydown', keyDownHandler, false);
+// document.addEventListener('keyup', keyUpHandler, false);
+// document.addEventListener('mousemove', mouseMoveHandler, false);
 
 // **********************************************************************
 // Game Mechanics
@@ -158,4 +161,4 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-draw();
+// draw();

@@ -6,7 +6,7 @@ import GameLabel from './GameLabel.js';
 // import EventListener from './EventListener.js';
 
 class Game {
-  constructor(canvas) {
+  constructor(canvas, ctx) {
     this.canvas = canvas;
 
     this.ball = new Ball(canvas.width / 2, canvas.height - 30);
@@ -20,16 +20,17 @@ class Game {
     this.leftPressed = false;
 
     this.setup();
-    this.draw();
+    this.draw(ctx);
   }
 
   setup() {
     this.resetBallAndPaddle();
+    this.bricks.initializedBricks();
 
     // TODO: Fix
-    document.addEventListener('keydown', this.keyDownHandler, false);
-    document.addEventListener('keyup', this.keyUpHandler, false);
-    document.addEventListener('mousemove', this.mouseMoveHandler, false);
+    document.addEventListener('keydown', this.keyDownHandler.bind(this), false);
+    document.addEventListener('keyup', this.keyUpHandler.bind(this), false);
+    document.addEventListener('mousemove', this.mouseMoveHandler.bind(this), false);
   }
 
   // **********************************************************************
@@ -145,6 +146,7 @@ class Game {
   // **********************************************************************
 
   draw(ctx) {
+    console.log('-- draw() --')
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.bricks.drawBricks(ctx);
     this.ball.drawBall(ctx);
@@ -159,7 +161,11 @@ class Game {
     this.ball.x += this.ball.dx;
     this.ball.y += this.ball.dy;
 
-    requestAnimationFrame(this.draw); // TODO: fix
+    // TODO: fix
+    // requestAnimationFrame(this.draw.bind(this));   // this is solution A: Binding
+    requestAnimationFrame(() => {
+      this.draw(ctx)
+    });
   }
 }
 
