@@ -1,62 +1,61 @@
 // EventListener.js
 
-// TODO: Fix this
 class EventListener {
   constructor(canvas, paddle) {
     this.rightPressed = false;
     this.leftPressed = false;
 
-    // creating event listeners
-    this.keyDown()
-    this.keyUp()
-    this.mouseMove(canvas, paddle)
+    this.canvas = canvas;
+    this.paddle = paddle;
   }
- 
+
   // **********************************************************************
   // Private Mehtods
-  // **********************************************************************  
+  // **********************************************************************
 
-  #keyDownHandler(e) {
+  keyDownHandler(e) {
     if (e.key === 'Right' || e.key === 'ArrowRight') {
-        this.rightPressed = true;
+      this.rightPressed = true;
     } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
-        this.leftPressed = true;
+      this.leftPressed = true;
     }
   }
-  
-  #keyUpHandler(e) {
+
+  keyUpHandler(e) {
     if (e.key === 'Right' || e.key === 'ArrowRight') {
-        this.rightPressed = false;
+      this.rightPressed = false;
     } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
-        this.leftPressed = false;
+      this.leftPressed = false;
     }
   }
-  
-  #mouseMoveHandler(e, canvas, paddle) {
-    const relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width) {
-      paddle.paddleX = relativeX - paddle.paddleWidth / 2;
+
+  mouseMoveHandler(e) {
+    const relativeX = e.clientX - this.canvas.offsetLeft;
+    if (relativeX > 0 && relativeX < this.canvas.width) {
+      this.paddle.paddleX = relativeX - this.paddle.paddleWidth / 2;
     }
   }
-  
+
   // **********************************************************************
   // Public Methods
   // **********************************************************************
 
+  setupEventListeners() {
+    this.keyDown();
+    this.keyUp();
+    this.mouseMove();
+  }
+
   keyDown() {
-    document.addEventListener('keydown', (e) => {
-      this.#keyDownHandler.bind(this)
-    }, false);
+    document.addEventListener('keydown', this.keyDownHandler.bind(this), false);
   }
 
   keyUp() {
-    document.addEventListener('keyup', (e) => {
-      this.#keyUpHandler(e)
-    }, false);
+    document.addEventListener('keyup', this.keyUpHandler.bind(this), false);
   }
 
-  mouseMove(canvas, paddle) {
-    document.addEventListener('mousemove', this.#mouseMoveHandler(canvas, paddle), false);
+  mouseMove() {
+    document.addEventListener('mousemove', this.mouseMoveHandler.bind(this), false);
   }
 }
 

@@ -3,7 +3,7 @@ import Ball from './Ball.js';
 import Paddle from './Paddle.js';
 import Bricks from './Bricks.js';
 import GameLabel from './GameLabel.js';
-// import EventListener from './EventListener.js';
+import EventListener from './EventListener.js';
 
 class Game {
   constructor(canvas, ctx) {
@@ -27,10 +27,8 @@ class Game {
     this.resetBallAndPaddle();
     this.bricks.initializedBricks();
 
-    // TODO: Fix
-    document.addEventListener('keydown', this.keyDownHandler.bind(this), false);
-    document.addEventListener('keyup', this.keyUpHandler.bind(this), false);
-    document.addEventListener('mousemove', this.mouseMoveHandler.bind(this), false);
+    const event = new EventListener(this.canvas, this.paddle)
+    event.setupEventListeners()
   }
 
   // **********************************************************************
@@ -111,33 +109,6 @@ class Game {
       if (this.paddle.paddleX < 0) {
         this.paddle.paddleX = 0;
       }
-    }
-  }
-
-  // **********************************************************************
-  // Event Listeners
-  // **********************************************************************
-
-  keyDownHandler(e) {
-    if (e.key === 'Right' || e.key === 'ArrowRight') {
-      this.rightPressed = true;
-    } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
-      this.leftPressed = true;
-    }
-  }
-
-  keyUpHandler(e) {
-    if (e.key === 'Right' || e.key === 'ArrowRight') {
-      this.rightPressed = false;
-    } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
-      this.leftPressed = false;
-    }
-  }
-
-  mouseMoveHandler(e) {
-    const relativeX = e.clientX - this.canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < this.canvas.width) {
-      this.paddle.paddleX = relativeX - this.paddle.paddleWidth / 2;
     }
   }
 
