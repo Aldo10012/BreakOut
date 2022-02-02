@@ -3,33 +3,33 @@ import Brick from './Brick.js';
 
 class Bricks {
   constructor() {
-    this.brickRowCount = 3;
-    this.brickColumnCount = 5;
-    this.brickPadding = 10;
-    this.brickOffsetTop = 30;
-    this.brickOffsetLeft = 30;
+    this.rowCount = 3;
+    this.columnCount = 5;
+    this.padding = 10;
+    this.offsetTop = 30;
+    this.offsetLeft = 30;
     this.bricks = [];
   }
 
   initializedBricks() {
-    for (let c = 0; c < this.brickColumnCount; c += 1) {
+    for (let c = 0; c < this.columnCount; c += 1) {
       this.bricks[c] = [];
-      for (let r = 0; r < this.brickRowCount; r += 1) {
-        const brickWidth = 75;
-        const brickHeight = 20;
-        const brickX = (c * (brickWidth + this.brickPadding)) + this.brickOffsetLeft;
-        const brickY = (r * (brickHeight + this.brickPadding)) + this.brickOffsetTop;
-        this.bricks[c][r] = new Brick(brickX, brickY, brickWidth, brickHeight);
+      for (let r = 0; r < this.rowCount; r += 1) {
+        const width = 75;
+        const height = 20;
+        const brickX = (c * (width + this.padding)) + this.offsetLeft;
+        const brickY = (r * (height + this.padding)) + this.offsetTop;
+        this.bricks[c][r] = new Brick(brickX, brickY, width, height);
       }
     }
   }
 
-  drawBricks(ctx) {
-    for (let c = 0; c < this.brickColumnCount; c += 1) {
-      for (let r = 0; r < this.brickRowCount; r += 1) {
+  draw(ctx) {
+    for (let c = 0; c < this.columnCount; c += 1) {
+      for (let r = 0; r < this.rowCount; r += 1) {
         const brick = this.bricks[c][r];
         if (brick.status === 1) {
-          brick.drawBrick(ctx, r, c);
+          brick.draw(ctx, r, c);
         }
       }
     }

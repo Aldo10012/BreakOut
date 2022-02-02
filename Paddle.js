@@ -2,14 +2,14 @@
 
 class Paddle {
   constructor(canvas, height = 10, width = 75) {
-    this.paddleHeight = height;
-    this.paddleWidth = width;
+    this.height = height;
+    this.width = width;
     this.paddleX = (canvas.width - width) / 2;
   }
 
-drawPaddle(ctx, canvas) {
+draw(ctx, canvas) {
     ctx.beginPath();
-    ctx.rect(this.paddleX, canvas.height - this.paddleHeight, this.paddleWidth, this.paddleHeight);
+    ctx.rect(this.paddleX, canvas.height - this.height, this.width, this.height);
     ctx.fillStyle = '#0095DD';
     ctx.fill();
     ctx.closePath();

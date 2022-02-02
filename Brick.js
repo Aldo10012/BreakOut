@@ -5,13 +5,13 @@ class Brick {
     this.x = x;
     this.y = y;
     this.status = 1;
-    this.brickWidth = width;
-    this.brickHeight = height;
+    this.width = width;
+    this.height = height;
   }
 
-  drawBrick(ctx, r, c) {
+  draw(ctx, r, c) {
     ctx.beginPath();
-    ctx.rect(this.x, this.y, this.brickWidth, this.brickHeight);
+    ctx.rect(this.x, this.y, this.width, this.height);
 
     // adding checkers pattern
     if (((r % 2 === 0) && (c % 2 === 0)) || ((r % 2 === 1) && (c % 2 === 1))) {
