@@ -41,7 +41,7 @@ class Game {
     this.ball.y = this.canvas.height - 30;
     this.ball.dx = this.ball.speed;
     this.ball.dy = -this.ball.speed;
-    this.paddle.paddleX = (this.canvas.width - this.paddle.width) / 2;
+    this.paddle.x = this.paddle.starterX //(this.canvas.width - this.paddle.width) / 2;
   }
 
   // collision detection
@@ -82,8 +82,8 @@ class Game {
       this.ball.dy = -this.ball.dy;
     } else if (this.ball.y + this.ball.dy > this.canvas.height - this.ball.radius) {
       // ball hit paddle
-      if (this.ball.x > this.paddle.paddleX
-        && this.ball.x < this.paddle.paddleX + this.paddle.width
+      if (this.ball.x > this.paddle.x
+        && this.ball.x < this.paddle.x + this.paddle.width
       ) {
         this.ball.dy = -this.ball.dy;
       } else { // ball hit bottom
@@ -100,14 +100,14 @@ class Game {
 
   checkIfKeyWasPressed() {
     if (this.rightPressed) {
-      this.paddle.paddleX += 7;
-      if (this.paddle.paddleX + this.paddle.width > this.canvas.width) {
-        this.paddle.paddleX = this.canvas.width - this.paddle.width;
+      this.paddle.x += 7;
+      if (this.paddle.x + this.paddle.width > this.canvas.width) {
+        this.paddle.x = this.canvas.width - this.paddle.width;
       }
     } else if (this.leftPressed) {
-      this.paddle.paddleX -= 7;
-      if (this.paddle.paddleX < 0) {
-        this.paddle.paddleX = 0;
+      this.paddle.x -= 7;
+      if (this.paddle.x < 0) {
+        this.paddle.x = 0;
       }
     }
   }

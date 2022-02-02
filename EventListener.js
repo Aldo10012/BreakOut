@@ -32,7 +32,7 @@ class EventListener {
   mouseMoveHandler(e) {
     const relativeX = e.clientX - this.canvas.offsetLeft;
     if (relativeX > 0 && relativeX < this.canvas.width) {
-      this.paddle.paddleX = relativeX - this.paddle.width / 2;
+      this.paddle.x = relativeX - this.paddle.width / 2;
     }
   }
 

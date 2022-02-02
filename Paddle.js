@@ -4,20 +4,21 @@ import Sprite from './Sprite.js';
 
 class Paddle extends Sprite {
   constructor(canvas, height = 10, width = 75) {
-    super(0, 0, width, height);
+    super((canvas.width - width) / 2, canvas.height - height, width, height);
     // this.height = height;
     // this.width = width;
-    this.paddleX = (canvas.width - width) / 2;
-    this.paddleY = canvas.height - this.height
+    // this.x = (canvas.width - width) / 2;
+    // this.y = canvas.height - this.height
+    this.starterX = this.x
   }
 
-draw(ctx, canvas) {
-    ctx.beginPath();
-    ctx.rect(this.paddleX, this.paddleY, this.width, this.height);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
-  }
+  // draw(ctx) {
+  //   ctx.beginPath();
+  //   ctx.rect(this.x, this.y, this.width, this.height);
+  //   ctx.fillStyle = this.color;
+  //   ctx.fill();
+  //   ctx.closePath();
+  // }
 }
 
 export default Paddle;
