@@ -121,7 +121,7 @@ class Game {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.bricks.draw(ctx);
     this.ball.draw(ctx);
-    this.paddle.draw(ctx, this.canvas);
+    this.paddle.draw(ctx);
     this.scoreLabel.draw(ctx);
     this.livesLabel.draw(ctx);
 
