@@ -6,9 +6,6 @@ class GameLabel extends Sprite {
     super(x, y, 0, 0, color)
     this.text = text
     this.value = value;
-    // this.x = x;
-    // this.y = y;
-    // this.color = color;
     this.font = font
   }
   

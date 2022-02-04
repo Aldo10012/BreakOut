@@ -41,7 +41,7 @@ class Game {
     this.ball.y = this.canvas.height - 30;
     this.ball.dx = this.ball.speed;
     this.ball.dy = -this.ball.speed;
-    this.paddle.x = this.paddle.starterX //(this.canvas.width - this.paddle.width) / 2;
+    this.paddle.x = this.paddle.starterX 
   }
 
   // collision detection
